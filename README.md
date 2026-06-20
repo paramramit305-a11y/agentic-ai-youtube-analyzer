@@ -57,7 +57,7 @@ agentic-ai-youtube-analyzer/
     ├── agent.py             # Tool-using agent: searches for AI/ML internships (Tavily)
     ├── finance.py           # Agent with YFinance + Tavily tools
     ├── memory.py            # Agent with persistent SQLite-backed memory
-    └── team.py               # Multi-agent team (3 agents, 3 languages)
+    └── team.py              # Multi-agent team (3 agents, 3 languages)
 ```
 
 ## Running it locally
