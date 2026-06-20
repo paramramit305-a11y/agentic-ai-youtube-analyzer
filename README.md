@@ -1,6 +1,6 @@
 # YouTube Video Analyzer (Agno Agent)
 
-Takes a YouTube link, pulls the transcript, and returns a timestamped breakdown of the video using an Agno agent backed by Groq.
+Takes a YouTube link and returns a timestamped breakdown of the video — pulls the transcript when accessible, using an Agno agent backed by Groq.
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![Agno](https://img.shields.io/badge/Agno-agentic_framework-7C3AED?style=flat-square)](https://agno.com)
