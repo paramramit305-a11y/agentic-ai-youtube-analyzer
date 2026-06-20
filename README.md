@@ -8,6 +8,8 @@ Takes a YouTube link, pulls the transcript, and returns a timestamped breakdown 
 [![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
+**[Live demo →](https://agentic-ai-youtube-analyzer.streamlit.app)**
+
 ## What it does
 
 Paste a YouTube URL, get back:
@@ -81,13 +83,12 @@ Opens at `http://localhost:8501`.
 
 ## Known limitations
 
-- Only tested on videos that have an available transcript — no fallback for transcript-less videos yet
+- **Transcript fetching is unreliable on cloud deployment.** `youtube-transcript-api` (used by `YouTubeTools`) works reliably when run locally, but YouTube blocks most requests coming from cloud provider IP ranges (AWS, GCP, Azure, and by extension Streamlit Community Cloud) — this is a known limitation of the library itself, not specific to this project. When the transcript fetch fails, the agent falls back to metadata-only analysis and explicitly flags the missing transcript instead of fabricating timestamps. A proper fix needs a residential proxy (e.g. Webshare), which I haven't added since it's a paid dependency.
 - Single video at a time, no comparison mode
-- Runs locally only right now, not yet deployed
 
 ## Possible next steps
 
-- Deploy on Streamlit Community Cloud
+- Add residential proxy support so transcript fetching works reliably on the deployed version, not just locally
 - Let users ask follow-up questions about the analyzed video instead of just getting a one-shot report
 - Swap the model provider (OpenAI/Anthropic) to confirm the Agno setup is actually model-agnostic, not just working with Groq
 
