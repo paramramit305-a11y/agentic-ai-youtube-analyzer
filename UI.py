@@ -60,8 +60,8 @@ footer {visibility: hidden;}
     margin: 0;
 }
 
-/* Input card */
-.input-card {
+/* Input card - now targets the ACTUAL container via key, not a fake markdown div */
+.st-key-input_card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
     backdrop-filter: blur(10px);
@@ -70,8 +70,8 @@ footer {visibility: hidden;}
     margin-bottom: 1.4rem;
 }
 
-/* Result card */
-.result-card {
+/* Result card - same fix */
+.st-key-result_card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 18px;
@@ -79,7 +79,7 @@ footer {visibility: hidden;}
     margin-top: 1rem;
     color: #EDEDF5;
 }
-.result-card h4 {
+.st-key-result_card h4 {
     color: #F4F3FF;
     margin-top: 0;
 }
@@ -191,20 +191,16 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+with st.container(key="input_card"):
+    video_url = st.text_input(
+        "YouTube video URL",
+        placeholder="https://www.youtube.com/watch?v=...",
+        label_visibility="collapsed",
+    )
 
-st.markdown('<div class="input-card">', unsafe_allow_html=True)
-
-video_url = st.text_input(
-    "YouTube video URL",
-    placeholder="https://www.youtube.com/watch?v=...",
-    label_visibility="collapsed",
-)
-
-col1, col2 = st.columns([1, 5])
-with col1:
-    analyze_clicked = st.button("🔍 Analyze Video", use_container_width=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 5])
+    with col1:
+        analyze_clicked = st.button("🔍 Analyze Video", use_container_width=True)
 
 
 if analyze_clicked:
@@ -213,34 +209,38 @@ if analyze_clicked:
     else:
         video_id = extract_video_id(video_url)
 
-        if video_id:
+        if not video_id:
+            st.error("That doesn't look like a valid YouTube link. Please check the URL.")
+        else:
             st.video(f"https://www.youtube.com/watch?v={video_id}")
 
-        try:
-            with st.spinner("Analyzing video — this can take a few seconds..."):
-                response = agent.run(f"Analyze this video: {video_url}")
+            try:
+                with st.spinner("Analyzing video — this can take a few seconds..."):
+                    response = agent.run(f"Analyze this video: {video_url}")
 
-            st.success("Analysis complete !")
+                st.success("Analysis complete!")
 
-            st.markdown('<div class="result-card">', unsafe_allow_html=True)
-            st.markdown("#### 📄 Analysis Report")
-            st.markdown(response.content)
-            st.markdown('</div>', unsafe_allow_html=True)
+                with st.container(key="result_card"):
+                    st.markdown("#### 📄 Analysis Report")
+                    st.markdown(response.content)
 
-            st.download_button(
-                "⬇️ Download Report",
-                data=response.content,
-                file_name="video_analysis_report.md",
-                mime="text/markdown",
-            )
+                st.download_button(
+                    "⬇️ Download Report",
+                    data=response.content,
+                    file_name="video_analysis_report.md",
+                    mime="text/markdown",
+                )
 
-            st.session_state.history.insert(0, video_url)
 
-        except Exception as e:
-            st.error(f"Something went wrong: {e}")
+                if video_url in st.session_state.history:
+                    st.session_state.history.remove(video_url)
+                st.session_state.history.insert(0, video_url)
+
+            except Exception as e:
+                st.error(f"Something went wrong: {e}")
 
 
 if st.session_state.history:
     with st.expander("🕘 Recently analyzed"):
         for url in st.session_state.history[:5]:
-            st.write(url)    
+            st.write(url)
