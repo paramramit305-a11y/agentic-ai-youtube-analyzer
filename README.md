@@ -4,7 +4,7 @@ Takes a YouTube link and returns a timestamped breakdown of the video — pulls 
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![Agno](https://img.shields.io/badge/Agno-agentic_framework-7C3AED?style=flat-square)](https://agno.com)
-[![Groq](https://img.shields.io/badge/Groq-qwen3--32b-F55036?style=flat-square)](https://groq.com)
+[![Groq](https://img.shields.io/badge/Groq-gpt--oss--120b-F55036?style=flat-square)](https://groq.com)
 [![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
@@ -30,7 +30,7 @@ UI.py (Streamlit)
    │  takes a YouTube URL, calls agent.run()
    ▼
 youtube_analyzer.py (Agno Agent)
-   │  model: Groq qwen/qwen3-32b
+   │  model: Groq openai/gpt-oss-120b
    │  tools: YouTubeTools (transcript + metadata)
    ▼
 Groq API → structured markdown report → rendered in Streamlit
@@ -41,7 +41,7 @@ Groq API → structured markdown report → rendered in Streamlit
 | Part | Choice | Why |
 |---|---|---|
 | Agent framework | Agno | Much less boilerplate than LangChain for a single tool-using agent; was already learning it for this reason |
-| Model | Groq — `qwen/qwen3-32b` | Free tier, fast enough for interactive use in the UI |
+| Model | Groq — `openai/gpt-oss-120b` | Free tier, fast enough for interactive use in the UI |
 | Tool | `YouTubeTools` | Handles transcript fetching so the agent doesn't have to |
 | Frontend | Streamlit | Fastest way to get a usable UI on top of a Python agent |
 
