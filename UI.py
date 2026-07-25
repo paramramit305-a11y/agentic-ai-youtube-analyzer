@@ -17,12 +17,18 @@ html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
 }
 
-/* Deliberately NOT touching #MainMenu, footer, stHeader, or stToolbar —
-   the CRAG project never touches these either, and its sidebar works
-   perfectly. Hiding the header was what broke the sidebar toggle here,
-   since Streamlit's collapse/expand control lives inside it and its
-   internal testid changes across versions, making targeted CSS fixes
-   unreliable. Leaving the default chrome alone is the robust fix. */
+/* The header ELEMENT must stay in the DOM — that's what keeps the
+   sidebar collapse/expand arrow working (confirmed by testing).
+   IMPORTANT: do NOT hide stToolbar — after reading Streamlit's actual
+   compiled source, the sidebar reopen button (stExpandSidebarButton) is
+   rendered AS A CHILD of stToolbar, so hiding stToolbar would silently
+   break the reopen arrow again. Instead we only strip the header's
+   background so it stops rendering as a visible black bar/strip, while
+   leaving every element inside it fully intact and functional. */
+[data-testid="stHeader"] {
+    background: transparent !important;
+    height: 3rem;
+}
 
 .stApp {
     background:
@@ -32,7 +38,7 @@ html, body, [class*="css"] {
 }
 
 .block-container {
-    padding-top: 1rem !important;
+    padding-top: 1.8rem !important;
     margin-top: 0 !important;
     padding-bottom: 3rem;
     max-width: 700px;
@@ -210,7 +216,6 @@ if analyze_clicked:
     else:
         video_id = extract_video_id(video_url)
 
-        
         if not video_id:
             st.error("That doesn't look like a valid YouTube link. Please check the URL.")
         else:
@@ -232,7 +237,7 @@ if analyze_clicked:
                     file_name="video_analysis_report.md",
                     mime="text/markdown",
                 )
-
+                
                 if video_url in st.session_state.history:
                     st.session_state.history.remove(video_url)
                 st.session_state.history.insert(0, video_url)
