@@ -17,33 +17,12 @@ html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
 }
 
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-
-/* IMPORTANT: don't display:none the whole header — it also hosts the
-   sidebar's collapse/expand arrow, so hiding it makes the arrow
-   disappear once the sidebar is closed. Instead, keep the header but
-   make it transparent, and only hide the Deploy/3-dot toolbar. */
-[data-testid="stHeader"] {
-    background: transparent;
-    height: 3rem;
-}
-[data-testid="stToolbar"] {
-    visibility: hidden;
-}
-
-/* SAFETY NET: some Streamlit versions render the "reopen sidebar" arrow
-   as its own floating element (testid changes across versions:
-   stSidebarCollapsedControl / collapsedControl). Force it visible and
-   above everything else no matter what, so it can never get hidden by
-   the rules above or covered by other elements. */
-[data-testid="stSidebarCollapsedControl"],
-div[data-testid="collapsedControl"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 999999 !important;
-}
+/* Deliberately NOT touching #MainMenu, footer, stHeader, or stToolbar —
+   the CRAG project never touches these either, and its sidebar works
+   perfectly. Hiding the header was what broke the sidebar toggle here,
+   since Streamlit's collapse/expand control lives inside it and its
+   internal testid changes across versions, making targeted CSS fixes
+   unreliable. Leaving the default chrome alone is the robust fix. */
 
 .stApp {
     background:
@@ -53,7 +32,7 @@ div[data-testid="collapsedControl"] {
 }
 
 .block-container {
-    padding-top: 1.2rem !important;
+    padding-top: 1rem !important;
     margin-top: 0 !important;
     padding-bottom: 3rem;
     max-width: 700px;
@@ -253,7 +232,7 @@ if analyze_clicked:
                     file_name="video_analysis_report.md",
                     mime="text/markdown",
                 )
-                
+
                 if video_url in st.session_state.history:
                     st.session_state.history.remove(video_url)
                 st.session_state.history.insert(0, video_url)
