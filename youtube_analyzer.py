@@ -9,6 +9,7 @@ load_dotenv()
 def youtube_analyzer_agent():
     return Agent(
         name="YouTube Agent",
+        # gpt-oss-120b — better instruction-following for structured multi-step output
         model=Groq(id="openai/gpt-oss-120b"),
         tools=[YouTubeTools()],
         instructions=dedent("""\
