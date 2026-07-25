@@ -13,7 +13,7 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-html, body, [class*="css"]  {
+html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
 }
 
@@ -24,86 +24,104 @@ footer {visibility: hidden;}
 }
 
 .stApp {
-    background: linear-gradient(180deg, #FAFAFF 0%, #F3F1FF 100%);
+    background:
+        radial-gradient(circle at 15% 0%, rgba(139,124,246,0.25), transparent 40%),
+        radial-gradient(circle at 85% 100%, rgba(99,102,241,0.18), transparent 45%),
+        #0B0E17;
 }
 
 .block-container {
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-    max-width: 760px;
+    padding-top: 2.2rem !important;
+    margin-top: 0 !important;
+    padding-bottom: 3rem;
+    max-width: 700px;
 }
-
 
 /* Hero */
 .hero {
-    background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
-    padding: 2.2rem 2rem;
-    border-radius: 18px;
-    color: white;
-    margin-bottom: 1.8rem;
-    box-shadow: 0 10px 30px rgba(108, 92, 231, 0.25);
+    background: linear-gradient(135deg, rgba(139,124,246,0.18), rgba(99,102,241,0.10));
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    padding: 2.3rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 1.6rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
 }
 .hero h1 {
+    color: #F4F3FF;
     font-size: 2rem;
     font-weight: 800;
-    margin: 0 0 0.4rem 0;
+    margin: 0 0 0.5rem 0;
 }
 .hero p {
-    font-size: 1.02rem;
-    opacity: 0.92;
+    color: #B9B6D6;
+    font-size: 1rem;
+    line-height: 1.5;
     margin: 0;
 }
 
-/* Card wrapper for input section */
+/* Input card */
 .input-card {
-    background: #F5F4FF;
-    border: 1px solid #E4E1FB;
-    border-radius: 16px;
-    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
-    margin-bottom: 1.5rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 1.4rem;
+    margin-bottom: 1.4rem;
 }
 
 /* Result card */
 .result-card {
-    background: #FFFFFF;
-    border: 1px solid #ECECEC;
-    border-radius: 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
     padding: 1.6rem;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
     margin-top: 1rem;
+    color: #EDEDF5;
+}
+.result-card h4 {
+    color: #F4F3FF;
+    margin-top: 0;
 }
 
 /* Buttons */
 div.stButton > button {
-    background: #6C5CE7;
+    background: linear-gradient(135deg, #8B7CF6, #6366F1);
     color: white;
     border: none;
     border-radius: 10px;
-    padding: 0.55rem 1.4rem;
+    padding: 0.6rem 1.5rem;
     font-weight: 600;
     transition: 0.2s ease;
 }
 div.stButton > button:hover {
-    background: #5A4BD6;
+    filter: brightness(1.12);
     color: white;
 }
 
 /* Text input */
 div[data-baseweb="input"] {
+    background: rgba(255,255,255,0.05) !important;
     border-radius: 10px !important;
 }
 
 /* Badges */
 .badge {
     display: inline-block;
-    background: #F5F4FF;
-    color: #6C5CE7;
-    border: 1px solid #E4E1FB;
+    background: rgba(139,124,246,0.15);
+    color: #C9C4FF;
+    border: 1px solid rgba(139,124,246,0.3);
     padding: 0.2rem 0.7rem;
     border-radius: 20px;
     font-size: 0.78rem;
     font-weight: 600;
     margin: 0.15rem 0.25rem 0.15rem 0;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: #10131F;
+    border-right: 1px solid rgba(255,255,255,0.06);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -125,7 +143,7 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 
-# SIDEBAR-
+# SIDEBAR
 with st.sidebar:
     st.markdown("### 📺 About this Agent")
     st.write(
@@ -225,4 +243,4 @@ if analyze_clicked:
 if st.session_state.history:
     with st.expander("🕘 Recently analyzed"):
         for url in st.session_state.history[:5]:
-            st.write(url)
+            st.write(url)    
