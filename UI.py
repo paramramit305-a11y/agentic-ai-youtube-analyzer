@@ -5,7 +5,7 @@ from youtube_analyzer import youtube_analyzer_agent
 st.set_page_config(
     page_title="YouTube Video Analyzer",
     page_icon="📺",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="expanded",
 )
 
@@ -19,13 +19,20 @@ html, body, [class*="css"]  {
 
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
+[data-testid="stHeader"] {
+    display: none;
+}
+
+.stApp {
+    background: linear-gradient(180deg, #FAFAFF 0%, #F3F1FF 100%);
+}
 
 .block-container {
-    padding-top: 2rem;
+    padding-top: 1rem;
     padding-bottom: 2rem;
-    max-width: 900px;
+    max-width: 760px;
 }
+
 
 /* Hero */
 .hero {
