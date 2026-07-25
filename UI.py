@@ -32,6 +32,19 @@ footer {visibility: hidden;}
     visibility: hidden;
 }
 
+/* SAFETY NET: some Streamlit versions render the "reopen sidebar" arrow
+   as its own floating element (testid changes across versions:
+   stSidebarCollapsedControl / collapsedControl). Force it visible and
+   above everything else no matter what, so it can never get hidden by
+   the rules above or covered by other elements. */
+[data-testid="stSidebarCollapsedControl"],
+div[data-testid="collapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 999999 !important;
+}
+
 .stApp {
     background:
         radial-gradient(circle at 15% 0%, rgba(139,124,246,0.25), transparent 40%),
@@ -217,6 +230,7 @@ if analyze_clicked:
         st.warning("Please enter a valid YouTube link first.")
     else:
         video_id = extract_video_id(video_url)
+
         
         if not video_id:
             st.error("That doesn't look like a valid YouTube link. Please check the URL.")
@@ -239,8 +253,7 @@ if analyze_clicked:
                     file_name="video_analysis_report.md",
                     mime="text/markdown",
                 )
-
-
+                
                 if video_url in st.session_state.history:
                     st.session_state.history.remove(video_url)
                 st.session_state.history.insert(0, video_url)
