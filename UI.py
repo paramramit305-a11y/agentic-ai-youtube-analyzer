@@ -19,8 +19,17 @@ html, body, [class*="css"] {
 
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
+
+/* IMPORTANT: don't display:none the whole header — it also hosts the
+   sidebar's collapse/expand arrow, so hiding it makes the arrow
+   disappear once the sidebar is closed. Instead, keep the header but
+   make it transparent, and only hide the Deploy/3-dot toolbar. */
 [data-testid="stHeader"] {
-    display: none;
+    background: transparent;
+    height: 3rem;
+}
+[data-testid="stToolbar"] {
+    visibility: hidden;
 }
 
 .stApp {
@@ -31,7 +40,7 @@ footer {visibility: hidden;}
 }
 
 .block-container {
-    padding-top: 2.2rem !important;
+    padding-top: 1.2rem !important;
     margin-top: 0 !important;
     padding-bottom: 3rem;
     max-width: 700px;
@@ -208,7 +217,7 @@ if analyze_clicked:
         st.warning("Please enter a valid YouTube link first.")
     else:
         video_id = extract_video_id(video_url)
-
+        
         if not video_id:
             st.error("That doesn't look like a valid YouTube link. Please check the URL.")
         else:
